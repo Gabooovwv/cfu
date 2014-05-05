@@ -1,25 +1,27 @@
 <?php
-
+// print "<pre>";
+// var_dump($_REQUEST);
+// exit;
 // A list of permitted file extensions
-$allowed = array('png', 'jpg', 'gif','zip');
-print '<pre>';
-var_dump($_FILES);
-print '</pre>';
-exit;
-if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
+$allowed = array('png', 'jpg', 'jpeg', 'gif','zip');
+if (!empty($_FILES)) {
+	$file = array_pop($_FILES);
 
-	$extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
+	if (!empty($file) && $file['error'] == 0) {
+		$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-	if(!in_array(strtolower($extension), $allowed)){
-		echo '{"status":"error"}';
-		exit;
+		if (!in_array(strtolower($extension), $allowed)) {
+			echo '{"status":"error1"}';
+			exit;
+		}
+
+		if (move_uploaded_file($file['tmp_name'], 'uploads/' . $file['name'])) {
+			echo '{"status":"success","image":"' . $file['name'] . '"}';
+			exit;
+		}
 	}
 
-	if(move_uploaded_file($_FILES['upl']['tmp_name'], 'uploads/'.$_FILES['upl']['name'])){
-		echo '{"status":"success"}';
-		exit;
-	}
 }
 
-echo '{"status":"error"}';
+echo '{"status":"error2"}';
 exit;

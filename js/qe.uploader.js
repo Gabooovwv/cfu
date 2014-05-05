@@ -8,17 +8,22 @@ var Uploader = {
 		$('.fileUpload').bind('change', this.setFiles);
 		$('.fileUploadButton').bind('click', this.setUpload);
 	},
-	setUpload: function()
-	{
-		formId = this.parentNode.parentNode.id;
 
-		files = $('#' + formId + ' .fileUpload');
+	/**
+	 * Set upload event.
+	 *
+	 * @returns {Boolean}
+	 */
+	setUpload: function(){
+		'use strict';
+
+		var formId = this.parentNode.parentNode.id,
+			files  = $('#' + formId + ' .fileUpload');
 
 		for (var i = 0; i < files[0].files.length; ++i) {
 			var data = new FormData();
 
-			$.each(files[0].files, function(key, value)
-			{
+			$.each(files[0].files, function(key, value){
 				if (key == i) {
 					data.append(key, value);
 				}
@@ -29,18 +34,26 @@ var Uploader = {
 
 		return false;
 	},
-	upload: function(data, formId, i)
-	{
-		console.log(formId, i)
+
+	/**
+	 * Upload one file.
+	 *
+	 * @param data     Form data.
+	 * @param formId   Form ID.
+	 * @param i        Price.
+	 *
+	 * @retunr string   JSON object/HTML response
+	 */
+	upload: function(data, formId, i){
+		'use strict';
+
 		var proc        = $('#' + formId + ' .queueElement')[i],
 			percentage  = proc.children[0];
-			progressBar = proc.children[2].children[0];
-			console.log(progressBar, formId, i);
+
 		//show progress bar
 		/*$uploadData = $form.parent();
 		$uploadData.find('.progress').show();
 		$progressBar = $uploadData.find('.progressBar');*/
-
 		var request = $.ajax({
 			cache: false,
 			contentType: false,
@@ -55,28 +68,44 @@ var Uploader = {
 				if (req) {
 					req.upload.addEventListener('progress',function(ev){
 						//Display progress Percentage
-						progress = Math.round(ev.loaded * 100 / ev.total);
+						var progress = Math.round(ev.loaded * 100 / ev.total);
 						percentage.innerText = progress.toString() + '%';
-						progressBar.style.width = progress + '%';
+						$('#' + formId + ' .progress')[i].style.width = progress + '%';
 					}, false);
 				}
+
 				return req;
 			}
 		});
 
-		request.done(function(msg) {
-			$('#log').html(msg);
+		request.done(function(msg){
+			$('#' + formId + ' .imageBox').append('<div class="images"><img src="uploads/' + msg.image + '" width="150" /><br /><a href="#">Delete</a></div>');
+			//console.log($('.images a').length);
+			$('.images a').live(
+				'click',
+				Uploader.deleteFile()
+			);
+			//$('#log').html(msg);
 		});
-
 
 		/*request.fail(function(jqXHR, textStatus) {
 			alert('Request failed: ' + textStatus);
 		});*/
 	},
-	setFiles: function(e)
-	{
-		this.formId           = this.parentNode.parentNode.id,
-			cloneQueueElement = $('#' + this.formId + ' .queueElement').clone();
+
+	/**
+	 * Set file and status bar.
+	 *
+	 * @param e   Event.
+	 *
+	 * @returns {Boolean}
+	 */
+	setFiles: function(){
+		'use strict';
+
+		this.formId           = this.parentNode.parentNode.id;
+
+		var cloneQueueElement = $('#' + this.formId + ' .queueElement').clone();
 
 		$('#' + this.formId + ' .queue .queueElement').remove('.queueElement');
 
@@ -89,5 +118,43 @@ var Uploader = {
 		$('#' + this.formId + ' .queue').show();
 
 		return true;
+	},
+
+	/**
+	 * Delete file.
+	 *
+	 * @return sring   HTML response.
+	 */
+	deleteFile: function(){
+		/*var request = $.ajax({
+			cache: false,
+			contentType: false,
+			processData: false,
+			type: 'post',
+			url: Uploader.uploader,
+			dataType: 'json',
+			enctype: 'multipart/form-data',
+			data: 'action=delete',
+			xhr: function() {
+				var req = $.ajaxSettings.xhr();
+				if (req) {
+					req.upload.addEventListener('progress',function(ev){
+						//Display progress Percentage
+						var progress = Math.round(ev.loaded * 100 / ev.total);
+						percentage.innerText = progress.toString() + '%';
+						$('#' + formId + ' .progress')[i].style.width = progress + '%';
+					}, false);
+				}
+
+				return req;
+			}
+		});
+
+		request.done(function(msg){
+			$('#' + formId + ' .imageBox').append('<div class="images"><img src="uploads/' + msg.image + '" width="150" /><br /><a href="#">Delete</a></div>');
+			//console.log(msg);
+			//$('#log').html(msg);
+		});*/
+		alert(9);
 	}
 };

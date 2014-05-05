@@ -18,3 +18,7 @@
 .queue .queueElement .fileName {width: 215px; text-align: right; float: left; margin-right: 5px;}
 .queue .queueElement .progressBar {border: 1px solid #000; float: left; width: 250px; height: 8px; margin: 0px 5px 4px 5px;}
 .queue .queueElement .progressBar .progress {width: 0%; height: 8px; background: #f00}
+
+.images {float: left; margin: 3px; padding: 2px; text-align: center; vertical-align: middle;}
+.images:hover {background: #afafaf;}
+.images a:hover {text-decoration: underline;}
