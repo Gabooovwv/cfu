@@ -2,6 +2,12 @@ var Uploader = {
 	maxFile:  10,
 	uploader: 'upload.php',
 	formId:   0,
+
+	/**
+	 * Init
+	 *
+	 * @return void
+	 */
 	init: function()
 	{
 		that = undefined;
