@@ -167,12 +167,13 @@ var Uploader = {
 
 	clone: function(){
 		console.log(111)
+		thatt = this
 		var that       = $(this);
-			lastForm   = that.prew(),
-			formNumber = parseInt(lastForm.id);
+			lastForm   = that.prev(),
+			formNumber = parseInt(lastForm.attr('id').substr(13));
 
-			that.after(that);
-			that.next().id = 'uploaderForm-' + ++formNumber;
+		that.after(that);
+		that.next().id = 'uploaderForm-' + ++formNumber;
 
 	}
 };
