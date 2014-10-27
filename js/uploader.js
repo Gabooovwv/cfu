@@ -13,6 +13,7 @@ var Uploader = {
 		that = undefined;
 		$('.fileUpload').bind('change', this.setFiles);
 		$('.fileUploadButton').bind('click', this.setUpload);
+		$('.addForm').bind('click', this.clone);
 	},
 
 	/**
@@ -109,7 +110,7 @@ var Uploader = {
 	setFiles: function(){
 		'use strict';
 
-		this.formId           = this.parentNode.parentNode.id;
+		this.formId = this.parentNode.parentNode.id;
 
 		var cloneQueueElement = $('#' + this.formId + ' .queueElement').clone();
 
@@ -162,5 +163,16 @@ var Uploader = {
 			//$('#log').html(msg);
 		});*/
 		alert(9);
+	},
+
+	clone: function(){
+		console.log(111)
+		var that       = $(this);
+			lastForm   = that.prew(),
+			formNumber = parseInt(lastForm.id);
+
+			that.after(that);
+			that.next().id = 'uploaderForm-' + ++formNumber;
+
 	}
 };

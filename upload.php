@@ -1,8 +1,5 @@
 <?php
-// print "<pre>";
-// var_dump($_REQUEST);
-// exit;
-// A list of permitted file extensions
+// A list of permitted file extensions.
 $allowed = array('png', 'jpg', 'jpeg', 'gif','zip');
 if (!empty($_FILES)) {
 	$file = array_pop($_FILES);
